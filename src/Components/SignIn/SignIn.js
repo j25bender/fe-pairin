@@ -12,22 +12,26 @@ export class SignIn extends Component {
                   PAIRIN
                 </span>
         </header>
-        <form>
-          <h5>Email Address</h5>
-          <input type='email' 
-                 id='email-input' 
-                 placeholder='email'
-                 autoFocus 
-                 required />
-          <h5>Password</h5>
-          <input type='password'
-                 id='password-input' 
-                 placeholder='password' 
-                 required />
-          <button id='sign-in-button' 
-                  disabled >SIGN IN
-          </button>
-        </form>
+        <div id='form-container'>
+          <form>
+            <h5 id='email-label'>Email Address</h5>
+            <input type='email' 
+                  id='email-input' 
+                  placeholder='email'
+                  autoFocus 
+                  required />
+            <h5 id='password-label'>Password</h5>
+            <input type='password'
+                  id='password-input' 
+                  placeholder='password' 
+                  required />
+            <input type='button'
+                   value='SIGN IN'
+                   id='sign-in-button' 
+                   disabled
+            />
+          </form>
+        </div>
       </div>
     );
   }
