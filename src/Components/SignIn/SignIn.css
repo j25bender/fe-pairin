@@ -1,0 +1,53 @@
+div {
+  background-color: #F5F5F2;
+  height: 100vh;
+  width: 100vw;
+}
+
+header {
+  display: grid;
+  grid-template-columns: 115px 90px 135px auto;
+  grid-template-rows: 40px 70px;
+  align-items: center;
+  justify-items: center;
+}
+
+div img {
+  grid-column: 2 / 3;
+  grid-row: row1-end / 2;
+  height: 65px;
+  width: 65px;
+}
+
+span {
+  justify-self: start;
+  grid-column: 3 / 4;
+  grid-row: row1-end / 2;
+}
+
+
+
+form {
+  height: 200px;
+  width: 360px;
+}
+
+form input {
+  border: 1px solid #CFCFCF;  
+  height: 35px;
+  width: 355px;
+}
+
+#sign-in-button {
+  background-color: #EABD47;
+  border-style: none;
+  color: #F5F5F2;
+  display: block;
+  height: 35px;
+  width: 85px;
+}
+
+form input,
+#sign-in-button {
+  border-radius: 5px;
+}
