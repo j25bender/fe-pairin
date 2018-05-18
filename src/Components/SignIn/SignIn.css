@@ -20,34 +20,56 @@ div img {
 }
 
 span {
+  color: #317C9A;
   justify-self: start;
   grid-column: 3 / 4;
   grid-row: row1-end / 2;
 }
 
-
+#form-container {
+  display: grid;
+  grid-template-columns: 1fr 360px 1fr;
+  grid-template-rows: 280px 200px auto;
+  align-items: center;
+  justify-items: center;
+}
 
 form {
+  grid-column: 2 / 3;
+  grid-row: row1-end / 1;
   height: 200px;
   width: 360px;
 }
 
 form input {
-  border: 1px solid #CFCFCF;  
+  border: 1px solid #CFCFCF;
+  cursor: pointer;
+  padding-left: 12px; 
   height: 35px;
   width: 355px;
 }
 
-#sign-in-button {
-  background-color: #EABD47;
-  border-style: none;
-  color: #F5F5F2;
-  display: block;
-  height: 35px;
-  width: 85px;
+input::placeholder {
+  color: #C4C4C4;
 }
 
 form input,
 #sign-in-button {
   border-radius: 5px;
+}
+
+#email-label,
+#password-label,
+#sign-in-button {
+  color: #7D7D7D;
+  margin: 25px 0 5px 0;
+}
+
+#sign-in-button {
+  background-color: #EABD47;
+  border-style: none;
+  cursor: not-allowed;
+  padding: 0;
+  height: 35px;
+  width: 85px;
 }
