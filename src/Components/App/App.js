@@ -10,16 +10,20 @@ class App extends Component {
     super(props)
 
     this.state = {
-      key: ''
+      key: '',
+      renew: ''
     }
   }
 
   componentDidMount() {
-    const authResponse = localStorage.getItem('authResponse');
-    const parsedResponse = JSON.parse(authResponse)
-    if(authResponse.length && parsedResponse.status === "Success") {      
-      const key = parsedResponse.api_key
-      this.setState({ key })
+    const authResponse = localStorage.getItem('authResponse');    
+    if(authResponse) {
+      const parsedResponse = JSON.parse(authResponse)
+      if(parsedResponse.status === "Success") {      
+        const key = parsedResponse.api_key
+        const renew = parsedResponse.renew_key      
+        this.setState({ key, renew })
+      }
     }
   }
 
@@ -30,13 +34,13 @@ class App extends Component {
           <Route
             exact path='/'
             render={() => 
-              this.state.key ? <Redirect to='/userlist' /> : <SignIn />
+              this.state.key.length ? <Redirect to='/userlist' /> : <SignIn />
             }
           />
           <Route
             path='/userlist'
             render={() =>
-              <UserList token={ this.state.key } />
+              <UserList token={ this.state.key } renew={ this.state.renew } />
             }
           />
           {/* <Route
