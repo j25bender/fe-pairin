@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import UserList from '../UserList/UserList'
+// import UserList from '../UserList/UserList'
 import './SignIn.css';
 
 export class SignIn extends Component {
@@ -9,7 +9,8 @@ export class SignIn extends Component {
     this.state = {
       email: '',
       password: '',
-      error: ''
+      error: '',
+      authResponse: {}
     }
   }
 
@@ -26,6 +27,8 @@ export class SignIn extends Component {
           })
         })
         const authResponse = await initialFetch.json();
+        localStorage.setItem('authResponse', JSON.stringify(authResponse))
+        this.setState({ authResponse })
       } catch(error) {
         this.setState({ error })
       }
