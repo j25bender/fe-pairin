@@ -24,6 +24,8 @@ span {
   justify-self: start;
   grid-column: 3 / 4;
   grid-row: row1-end / 2;
+  font-size: 36px;
+  font-weight: bold;
 }
 
 #form-container {
