@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Arimo');
+
+.App {
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Arimo', sans-serif;
+  overflow: hidden;
+}
