@@ -42,14 +42,42 @@
 
 #user-container {
   display: grid;
-  grid-template-columns: 1fr fit-content 1fr;
-  grid-template-rows: 70px;
-  
+  grid-template-columns: 10% 80% 10%;
+  grid-template-rows: 100px 60px 1fr;
+  align-items: center;
+  justify-items: center;
 }
 
+#sort-users {
+  grid-column: 2 / span 3;
+  grid-row: row1-end / 3;
+}
+
+#sort-users h6 {
+  /* display: inline; */
+  width: 25%;
+  margin: 0;
+}
+
+#sort-users h6 img {
+  padding-left: 2px;
+  height: 10px;
+  width: 10px;
+}
+
+#render-user-list {
+  grid-column: 2 / span 3;
+  grid-row: third-line / 4;  
+}
+
+#sort-users,
+#render-user-list {  
+  align-self: center;
+  justify-self: center;
+}
 .user {
   background-color: #ECECE6;
-  margin: 10px;  
+  margin: 10px 0;  
   height: 50px;
   width: 80%;
 }

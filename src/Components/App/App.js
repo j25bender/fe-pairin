@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import SignIn from '../SignIn/SignIn';
 import UserList from '../UserList/UserList';
 // import Inform from '../Inform/Inform';
@@ -33,9 +33,11 @@ class App extends Component {
   signedInCheck = () => {
     console.log('hey')
     const signedIn = localStorage.getItem('signedIn')
-    if(signedIn && signedIn !== this.state.signedIn) {
+    // console.log('history', this.props.history)
+    if(signedIn === 'true' && signedIn !== this.state.signedIn) {
+      this.setState({ signedIn })       
+      // this.props.router.push('/userlist')
       console.log('si')
-      this.setState({ signedIn }) 
     }
   }
 
@@ -71,4 +73,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
