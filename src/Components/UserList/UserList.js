@@ -81,8 +81,24 @@ class UserList extends Component {
     }
   }
 
+  renderUserList = () => {
+    const { userList } = this.state;
+    if(userList.data) {
+      const user = userList.data.map((info, index) => {
+        return (
+          <div className='user' key={ index } id={ info.id }>
+            <h6 className='user-name'>{ info.full_name }</h6>
+            <h6 className='user-email'>{ info.email }</h6>
+            <button name='button'>VIEW</button>
+            <h6 className='user-survey-date'>{ info.survey_date }</h6>
+          </div>
+        )
+      })
+      return user
+    }
+  }
+
   render() {
-    
     return (
       <div id='user-list'>
         <header id='user-list-header'>
@@ -96,6 +112,9 @@ class UserList extends Component {
               </h4>
             </span>
         </header>
+        <div id='user-container'>
+          { this.renderUserList() }
+        </div>
       </div>
     )
   }
