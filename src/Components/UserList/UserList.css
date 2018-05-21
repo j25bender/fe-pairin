@@ -1,5 +1,42 @@
-div {
+#user-list {
   height: 100vh;
   width: 100vw;
-  background-color: slateblue;
+  background-color: #DDD;
+}
+
+#user-list-header {
+  background-color: #3A7B9A;
+  display: grid;
+  grid-template-columns: 115px 70px 5px 135px auto;
+  grid-template-rows: 70px;
+  align-items: center;
+  justify-items: center;
+}
+
+#user-list-header img {
+  grid-column: 2 / 3;
+  grid-row: row1-start / 1;
+  height: 65px;
+  width: 65px;
+}
+
+#user-list-header hr {
+  height: 70%;
+  justify-self: start;
+  grid-column: 3 / 4;
+  grid-row: row1-start / 1;
+}
+
+#pairin-span {
+  color: #DDD;
+  justify-self: start;
+  grid-column: 4 / 5;
+  grid-row: row1-start / 1;
+  font-size: 12px;
+  padding-left: 8px;
+}
+
+#pairin-span h4 {
+  font-size: 24px;
+  margin: 0;
 }

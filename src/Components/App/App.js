@@ -10,37 +10,52 @@ class App extends Component {
     super(props)
 
     this.state = {
+      signedIn: false,
       key: '',
       renew: ''
     }
   }
 
   componentDidMount() {
-    const authResponse = localStorage.getItem('authResponse');    
-    if(authResponse) {
+    const signedIn = localStorage.getItem('signedIn')
+    if(signedIn) {
+      const authResponse = localStorage.getItem('authResponse');    
       const parsedResponse = JSON.parse(authResponse)
-      if(parsedResponse.status === "Success") {      
+      if(parsedResponse.status === "Success") {  
         const key = parsedResponse.api_key
-        const renew = parsedResponse.renew_key      
-        this.setState({ key, renew })
+        const renew = parsedResponse.renew_key    
+        this.setState({ signedIn, key, renew })
+        console.log('app state', this.state)
       }
     }
   }
 
+  signedInCheck = () => {
+    console.log('hey')
+    const signedIn = localStorage.getItem('signedIn')
+    if(signedIn && signedIn !== this.state.signedIn) {
+      console.log('si')
+      this.setState({ signedIn }) 
+    }
+  }
+
   render() {
+    { this.signedInCheck() }
     return (
       <div className='App'>
         <Switch>
           <Route
             exact path='/'
             render={() => 
-              this.state.key.length ? <Redirect to='/userlist' /> : <SignIn />
+              this.state.signedIn ? <Redirect to='/userlist' /> : <SignIn />
             }
           />
           <Route
             path='/userlist'
             render={() =>
-              <UserList token={ this.state.key } renew={ this.state.renew } />
+              <UserList signedIn={ this.state.signedIn}
+                        key={ this.state.key } 
+                        renew={ this.state.renew } />
             }
           />
           {/* <Route

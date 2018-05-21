@@ -10,7 +10,8 @@ export class SignIn extends Component {
       email: '',
       password: '',
       error: '',
-      authResponse: {}
+      authResponse: {},
+      signedIn: false
     }
   }
 
@@ -28,7 +29,9 @@ export class SignIn extends Component {
         })
         const authResponse = await initialFetch.json();
         localStorage.setItem('authResponse', JSON.stringify(authResponse))
-        this.setState({ authResponse })
+        console.log('auth', authResponse)
+        localStorage.setItem('signedIn', true)        
+        this.setState({ authResponse, signedIn: true })
       } catch(error) {
         this.setState({ error })
       }
@@ -73,11 +76,11 @@ export class SignIn extends Component {
                    required
                    onChange={ e => this.setState({ password: e.target.value })} 
             />
-            <input type='submit'
-                   value='SIGN IN'
-                   id='sign-in-button'
-                   onClick={ () => this.validateInput() }
-            />
+              <input type='submit'
+                    value='SIGN IN'
+                    id='sign-in-button'
+                    onClick={ () => this.validateInput() }
+              />
           </form>
         </div>
       </div>

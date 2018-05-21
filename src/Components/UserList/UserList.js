@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './UserList.css'
 import PropTypes from 'prop-types'
 
 class UserList extends Component {
@@ -7,21 +8,23 @@ class UserList extends Component {
 
     this.state = {
       userList: [],
-      error: ''
+      error: '',
+      key: '',
+      renew: ''
     }
   }
 
-  componentDidUpdate(prevProps) {
-    console.log(prevProps !== this.props)
-    if(prevProps !== this.props) {
+  componentDidMount() {
+    console.log('props', this.props)
+    // console.log(prevProps !== this.props)
       // this.fetchUserList();
       this.renewSession();
-    }
+    
   }
 
   // checkSession = async () => {
   //   try {
-  //     const api_key = this.props.token;
+  //     const api_key = this.props.key;
   //     console.log(api_key)
   //     const initialFetch = await fetch('/authenticate', {
   //       method: 'GET',
@@ -39,17 +42,19 @@ class UserList extends Component {
 
   renewSession = async () => {
     try {
-      const api_key = this.props.token;
-      const renew_key = this.props.renew;
+      const key = this.props.key;
+      const renew = this.props.renew;
+      this.setState({ key, renew })
       const initialFetch = await fetch('http://localhost:3000/authenticate/renew', {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
-          'renew_key': renew_key
+          'renew_key': renew
         })
       })
       const renewSession = await initialFetch.json();
-      console.log('renew session', renewSession )
+      const renewedKey = renewSession.api_key
+      this.setState({ key: renewedKey })
       this.fetchUserList()
     } catch(error) {
       this.setState({ error })
@@ -60,12 +65,12 @@ class UserList extends Component {
   fetchUserList = async () => {
     console.log('fr')
     try {
-      const api_key = this.props.token;
-      console.log(api_key)
+      const key = this.state.key;
+      console.log('key', key)
       const initialFetch = await fetch('http://localhost:3000/api/users?limit=9&page=1', {
         method: 'GET',
         headers: { 'Content-type': 'application/json',
-                   'x-api-key':  api_key }
+                   'x-api-key': key }
       })
       const userList = await initialFetch.json();
       this.setState({ userList })
@@ -79,8 +84,18 @@ class UserList extends Component {
   render() {
     
     return (
-      <div>
-        HI
+      <div id='user-list'>
+        <header id='user-list-header'>
+          <img src={ require('../../assets/pairin-userlist-logo.png') } 
+               alt='PAIRIN Company Logo' />
+            <hr />
+            <span id='pairin-span'>
+              PAIRIN
+              <h4>
+                INFORM
+              </h4>
+            </span>
+        </header>
       </div>
     )
   }
