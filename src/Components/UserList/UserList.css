@@ -1,5 +1,5 @@
 #user-list {
-  height: 100vh;
+  height: 550px;
   width: 100vw;
 }
 
@@ -43,9 +43,10 @@
 #user-container {
   display: grid;
   grid-template-columns: 10% 80% 10%;
-  grid-template-rows: 100px 60px 1fr;
+  grid-template-rows: 30px 60px 550px;
   align-items: center;
   justify-items: center;
+  overflow-y: hidden;
 }
 
 #sort-users {
@@ -71,11 +72,11 @@
 
 #render-user-list {
   grid-column: 2 / span 3;
-  grid-row: third-line / 4;  
+  grid-row: third-line / 3;  
 }
 
 #render-user-list {  
-  align-self: center;
+  /* align-self: center; */
   justify-self: center;
 }
 

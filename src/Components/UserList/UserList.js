@@ -138,23 +138,23 @@ class UserList extends Component {
   }
 
   sortDates = (className) => {
-      let { allUsers, sortedAB } = this.state
-      sortedAB = !sortedAB
-      this.setState({ sortedAB })
-      if(allUsers) {
-        allUsers.sort((a, b) => {
-          const nameEmailA = a[className];
-          const nameEmailB = b[className];
-          let comparison = 0
-          if (nameEmailA < nameEmailB) {
-            comparison = -1;
-          } else if (nameEmailA > nameEmailB) {
-            comparison = 1;
-          } 
-          return this.invertComparison(comparison) 
-        })
-      }
+    let { allUsers, sortedAB } = this.state
+    sortedAB = !sortedAB
+    this.setState({ sortedAB })
+    if(allUsers) {
+      allUsers.sort((a, b) => {
+        const nameEmailA = a[className];
+        const nameEmailB = b[className];
+        let comparison = 0
+        if (nameEmailA < nameEmailB) {
+          comparison = -1;
+        } else if (nameEmailA > nameEmailB) {
+          comparison = 1;
+        } 
+        return this.invertComparison(comparison) 
+      })
     }
+  }
 
   invertComparison = (comparison) => {
     let { sortedAB } = this.state;
