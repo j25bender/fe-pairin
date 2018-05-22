@@ -103,7 +103,7 @@ class UserList extends Component {
 
   renderUserList = () => {
     const { userList, allUsers } = this.state;
-    if(allUsers[0].date) {
+    if(allUsers) {
       const user = allUsers.map((info, index) => {
         return (
           <div className='user' key={ index } id={ info.id }>
@@ -118,14 +118,14 @@ class UserList extends Component {
     }
   }
 
-  sortAB = (id) => {
+  sortAB = (className) => {
     let { allUsers, sortedAB } = this.state
     sortedAB = !sortedAB
     this.setState({ sortedAB })
-    if(allUsers.data) {
-      allUsers.data.sort((a, b) => {
-        const nameEmailA = a[id].toUpperCase();
-        const nameEmailB = b[id].toUpperCase();
+    if(allUsers) {
+      allUsers.sort((a, b) => {
+        const nameEmailA = a[className].toUpperCase();
+        const nameEmailB = b[className].toUpperCase();
         let comparison = 0
         if (nameEmailA < nameEmailB) {
           comparison = -1;
@@ -147,24 +147,26 @@ class UserList extends Component {
   }
 
   convertDates = (allUsers) => {
-    // let { allUsers } = this.state;
-    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
     if(allUsers.data) {
       const updatedUsers = allUsers.data.reduce((accu, user, index) => {
         if(typeof user.survey_date === 'string') {
           const shortDate = user.survey_date.split(' ').slice(0, 1);
           const commaSepartedDate = shortDate.join().replace(/-/gi, ',');
-          const event = new Date(Date.UTC(parseInt(commaSepartedDate)));
+          const newDateArr = commaSepartedDate.split(',')
+          const event = new Date(Date.UTC(parseInt(newDateArr), 
+                                          parseInt(newDateArr[1]), 
+                                          parseInt(newDateArr[2])));
           const formatedDate = event.toLocaleDateString('en-US', options);
-          const newObj = Object.assign({}, user, {date: formatedDate})
+        
+          const newObj = Object.assign({}, user, {date: formatedDate});
           accu.push(newObj)
           return accu
         }
         return accu
       }, [])
       this.setState({ allUsers: updatedUsers })
-      console.log('q',this.state)   
     }
   }
 
@@ -184,19 +186,19 @@ class UserList extends Component {
         </header>
         <div id='user-container'>
           <div id='sort-users'>
-              <h6 id='full_name' onClick={ (e) => this.sortAB(e.target.id) }>
+              <h6 className='full_name' onClick={ (e) => this.sortAB(e.target.className) }>
                 Name
-                <img src={ require('../../assets/up-down-arrows.png')}/>
+                <img className='full_name' src={ require('../../assets/up-down-arrows.png')}/>
               </h6>
-              <h6 id='email' onClick={ (e) => this.sortAB(e.target.id) }>
+              <h6 className='email' onClick={ (e) => this.sortAB(e.target.className) }>
                 Email
-                <img src={ require('../../assets/up-down-arrows.png')}/>
+                <img className='email' src={ require('../../assets/up-down-arrows.png')}/>
               </h6>
               <h6 id='survey-status-label'>
                 Survey Status
                 <img src={ require('../../assets/up-down-arrows.png')}/>
               </h6>
-              <h6 id='survey-date-label' onClick={ () => console.log('clicked')}>
+              <h6 className='date' onClick={ (e) => this.sortAB(e.target.className)}>
                 Survey Date
                 <img src={ require('../../assets/up-down-arrows.png')}/>
               </h6>
