@@ -137,6 +137,25 @@ class UserList extends Component {
     }
   }
 
+  sortDates = (className) => {
+      let { allUsers, sortedAB } = this.state
+      sortedAB = !sortedAB
+      this.setState({ sortedAB })
+      if(allUsers) {
+        allUsers.sort((a, b) => {
+          const nameEmailA = a[className];
+          const nameEmailB = b[className];
+          let comparison = 0
+          if (nameEmailA < nameEmailB) {
+            comparison = -1;
+          } else if (nameEmailA > nameEmailB) {
+            comparison = 1;
+          } 
+          return this.invertComparison(comparison) 
+        })
+      }
+    }
+
   invertComparison = (comparison) => {
     let { sortedAB } = this.state;
     if(sortedAB) {
@@ -198,7 +217,7 @@ class UserList extends Component {
                 Survey Status
                 <img src={ require('../../assets/up-down-arrows.png')}/>
               </h6>
-              <h6 className='date' onClick={ (e) => this.sortAB(e.target.className)}>
+              <h6 className='survey_date' onClick={ (e) => this.sortDates(e.target.className)}>
                 Survey Date
                 <img src={ require('../../assets/up-down-arrows.png')}/>
               </h6>
