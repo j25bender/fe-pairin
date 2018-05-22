@@ -21,7 +21,6 @@ class UserList extends Component {
     // console.log(prevProps !== this.props)
       // this.fetchUserList();
       this.renewSession();
-    
   }
 
   // checkSession = async () => {
@@ -57,7 +56,7 @@ class UserList extends Component {
       const renewSession = await initialFetch.json();
       const renewedKey = renewSession.api_key
       this.setState({ api_key: renewedKey })
-      this.fetchUserList(1)
+      // this.fetchUserList(1)
       this.fetchAllUsers(1)
     } catch(error) {
       this.setState({ error })
@@ -74,8 +73,8 @@ class UserList extends Component {
         headers: { 'Content-type': 'application/json',
                    'x-api-key': api_key }
       })
-      const userList = await initialFetch.json();
-      this.setState({ userList })
+      const userList = await initialFetch.json();    
+      // this.setState({ userList })
       console.log(this.state.userList)
     } catch(error) {
       this.setState({ error })
@@ -93,7 +92,8 @@ class UserList extends Component {
                    'x-api-key': api_key }
       })
       const allUsers = await initialFetch.json();
-      this.setState({ allUsers })
+      // this.setState({ allUsers })
+      this.convertDates(allUsers)
       console.log(this.state.allUsers)
     } catch(error) {
       this.setState({ error })
@@ -103,14 +103,14 @@ class UserList extends Component {
 
   renderUserList = () => {
     const { userList, allUsers } = this.state;
-    if(allUsers.data) {
-      const user = allUsers.data.map((info, index) => {
+    if(allUsers[0].date) {
+      const user = allUsers.map((info, index) => {
         return (
           <div className='user' key={ index } id={ info.id }>
             <h6 className='user-name'>{ info.full_name }</h6>
             <h6 className='user-email'>{ info.email }</h6>
             <button name='button'>VIEW</button>
-            <h6 className='user-survey-date'>{ info.survey_date }</h6>
+            <h6 className='user-survey-date'>{ info.date }</h6>
           </div>
         )
       })
@@ -123,13 +123,13 @@ class UserList extends Component {
     sortedAB = !sortedAB
     this.setState({ sortedAB })
     if(allUsers.data) {
-      const nameSorted = allUsers.data.sort((a, b) => {
-        const nameA = a[id].toUpperCase();
-        const nameB = b[id].toUpperCase();
+      allUsers.data.sort((a, b) => {
+        const nameEmailA = a[id].toUpperCase();
+        const nameEmailB = b[id].toUpperCase();
         let comparison = 0
-        if (nameA < nameB) {
+        if (nameEmailA < nameEmailB) {
           comparison = -1;
-        } else if (nameA > nameB) {
+        } else if (nameEmailA > nameEmailB) {
           comparison = 1;
         } 
         return this.invertComparison(comparison) 
@@ -143,6 +143,28 @@ class UserList extends Component {
       return comparison * -1
     } else if (!sortedAB) {
       return comparison
+    }
+  }
+
+  convertDates = (allUsers) => {
+    // let { allUsers } = this.state;
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+
+    if(allUsers.data) {
+      const updatedUsers = allUsers.data.reduce((accu, user, index) => {
+        if(typeof user.survey_date === 'string') {
+          const shortDate = user.survey_date.split(' ').slice(0, 1);
+          const commaSepartedDate = shortDate.join().replace(/-/gi, ',');
+          const event = new Date(Date.UTC(parseInt(commaSepartedDate)));
+          const formatedDate = event.toLocaleDateString('en-US', options);
+          const newObj = Object.assign({}, user, {date: formatedDate})
+          accu.push(newObj)
+          return accu
+        }
+        return accu
+      }, [])
+      this.setState({ allUsers: updatedUsers })
+      console.log('q',this.state)   
     }
   }
 
@@ -174,7 +196,7 @@ class UserList extends Component {
                 Survey Status
                 <img src={ require('../../assets/up-down-arrows.png')}/>
               </h6>
-              <h6 id='survey-date-label'>
+              <h6 id='survey-date-label' onClick={ () => console.log('clicked')}>
                 Survey Date
                 <img src={ require('../../assets/up-down-arrows.png')}/>
               </h6>
