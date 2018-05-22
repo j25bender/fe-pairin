@@ -95,7 +95,6 @@ class UserList extends Component {
       const allUsers = await initialFetch.json();
       this.setState({ allUsers })
       console.log(this.state.allUsers)
-      this.sortByName()
     } catch(error) {
       this.setState({ error })
       console.log(error)
@@ -119,14 +118,14 @@ class UserList extends Component {
     }
   }
 
-  sortByName = () => {
+  sortAB = (id) => {
     let { allUsers, sortedAB } = this.state
     sortedAB = !sortedAB
     this.setState({ sortedAB })
     if(allUsers.data) {
       const nameSorted = allUsers.data.sort((a, b) => {
-        const nameA = a.full_name.toUpperCase();
-        const nameB = b.full_name.toUpperCase();
+        const nameA = a[id].toUpperCase();
+        const nameB = b[id].toUpperCase();
         let comparison = 0
         if (nameA < nameB) {
           comparison = -1;
@@ -159,15 +158,15 @@ class UserList extends Component {
               <h4>
                 INFORM
               </h4>
-            </span>
+            </span> 
         </header>
         <div id='user-container'>
           <div id='sort-users'>
-              <h6 id='name-label' onClick={ () => this.sortByName() }>
+              <h6 id='full_name' onClick={ (e) => this.sortAB(e.target.id) }>
                 Name
                 <img src={ require('../../assets/up-down-arrows.png')}/>
               </h6>
-              <h6 id='email-label'>
+              <h6 id='email' onClick={ (e) => this.sortAB(e.target.id) }>
                 Email
                 <img src={ require('../../assets/up-down-arrows.png')}/>
               </h6>
