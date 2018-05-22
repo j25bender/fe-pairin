@@ -114,26 +114,27 @@ class UserList extends Component {
         </header>
         <div id='user-container'>
           <div id='sort-users'>
-            <h6 id='name-label'>
-              Name
-              <img src={ require('../../assets/up-down-arrows.png')}/>
-            </h6>
-            <h6 id='email-label'>
-              Email
-              <img src={ require('../../assets/up-down-arrows.png')}/>
-            </h6>
-            <h6 id='survey-status-label'>
-              Survey Status
-              <img src={ require('../../assets/up-down-arrows.png')}/>
-            </h6>
-            <h6 id='survey-date-label'>
-              Survey Date
-              <img src={ require('../../assets/up-down-arrows.png')}/>
-            </h6>
-            <div id='render-user-list'>
-              { this.renderUserList() }            
-            </div>
+              <h6 id='name-label'>
+                Name
+                <img src={ require('../../assets/up-down-arrows.png')}/>
+              </h6>
+              <h6 id='email-label'>
+                Email
+                <img src={ require('../../assets/up-down-arrows.png')}/>
+              </h6>
+              <h6 id='survey-status-label'>
+                Survey Status
+                <img src={ require('../../assets/up-down-arrows.png')}/>
+              </h6>
+              <h6 id='survey-date-label'>
+                Survey Date
+                <img src={ require('../../assets/up-down-arrows.png')}/>
+              </h6>
+            
           </div>
+          <div id='render-user-list'>
+              { this.state.userList && this.renderUserList() }            
+            </div>
         </div>
       </div>
     )

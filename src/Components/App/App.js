@@ -35,10 +35,15 @@ class App extends Component {
     const signedIn = localStorage.getItem('signedIn')
     // console.log('history', this.props.history)
     if(signedIn === 'true' && signedIn !== this.state.signedIn) {
-      this.setState({ signedIn })       
+      this.setState({ signedIn })     
       // this.props.router.push('/userlist')
       console.log('si')
     }
+  }
+
+  handleSignIn = (signedIn, authResponse) => {
+    const {api_key, renew_key} = authResponse
+    this.setState({signedIn, key: api_key, renew: renew_key})
   }
 
   render() {
@@ -49,7 +54,7 @@ class App extends Component {
           <Route
             exact path='/'
             render={() => 
-              this.state.signedIn ? <Redirect to='/userlist' /> : <SignIn />
+              this.state.signedIn ? <Redirect to='/userlist' /> : <SignIn handleSignIn= { this.handleSignIn }/>
             }
           />
           <Route
