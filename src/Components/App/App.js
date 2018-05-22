@@ -11,7 +11,7 @@ class App extends Component {
 
     this.state = {
       signedIn: false,
-      key: '',
+      api_key: '',
       renew: ''
     }
   }
@@ -22,32 +22,32 @@ class App extends Component {
       const authResponse = localStorage.getItem('authResponse');    
       const parsedResponse = JSON.parse(authResponse)
       if(parsedResponse.status === "Success") {  
-        const key = parsedResponse.api_key
+        const api_key = parsedResponse.api_key
         const renew = parsedResponse.renew_key    
-        this.setState({ signedIn, key, renew })
+        this.setState({ signedIn, api_key, renew })
         console.log('app state', this.state)
       }
     }
   }
 
-  signedInCheck = () => {
-    console.log('hey')
-    const signedIn = localStorage.getItem('signedIn')
-    // console.log('history', this.props.history)
-    if(signedIn === 'true' && signedIn !== this.state.signedIn) {
-      this.setState({ signedIn })     
-      // this.props.router.push('/userlist')
-      console.log('si')
-    }
-  }
+  // signedInCheck = () => {
+  //   console.log('hey')
+  //   const signedIn = localStorage.getItem('signedIn')
+  //   // console.log('history', this.props.history)
+  //   if(signedIn === 'true' && signedIn !== this.state.signedIn) {
+  //     this.setState({ signedIn })     
+  //     // this.props.router.push('/userlist')
+  //     console.log('si')
+  //   }
+  // }
 
   handleSignIn = (signedIn, authResponse) => {
     const {api_key, renew_key} = authResponse
-    this.setState({signedIn, key: api_key, renew: renew_key})
+    this.setState({signedIn, api_key, renew: renew_key})
   }
 
   render() {
-    { this.signedInCheck() }
+    // { this.signedInCheck() }
     return (
       <div className='App'>
         <Switch>
@@ -60,9 +60,9 @@ class App extends Component {
           <Route
             path='/userlist'
             render={() =>
-              <UserList signedIn={ this.state.signedIn}
-                        key={ this.state.key } 
-                        renew={ this.state.renew } />
+              this.state.signedIn ? <UserList signedIn={ this.state.signedIn }
+                        api_key={ this.state.api_key } 
+                        renew={ this.state.renew } /> : <SignIn />
             }
           />
           {/* <Route

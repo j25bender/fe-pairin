@@ -8,9 +8,11 @@ class UserList extends Component {
 
     this.state = {
       userList: [],
+      allUsers: [],
       error: '',
-      key: '',
-      renew: ''
+      api_key: '',
+      renew: '',
+      sortedAB: false
     }
   }
 
@@ -42,9 +44,9 @@ class UserList extends Component {
 
   renewSession = async () => {
     try {
-      const key = this.props.key;
+      const api_key = this.props.api_key;
       const renew = this.props.renew;
-      this.setState({ key, renew })
+      this.setState({ api_key, renew })
       const initialFetch = await fetch('http://localhost:3000/authenticate/renew', {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
@@ -54,23 +56,23 @@ class UserList extends Component {
       })
       const renewSession = await initialFetch.json();
       const renewedKey = renewSession.api_key
-      this.setState({ key: renewedKey })
-      this.fetchUserList()
+      this.setState({ api_key: renewedKey })
+      this.fetchUserList(1)
+      this.fetchAllUsers(1)
     } catch(error) {
       this.setState({ error })
       console.log('renew err', error)
     }
   }
 
-  fetchUserList = async () => {
-    console.log('fr')
+  fetchUserList = async (pageNum) => {
     try {
-      const key = this.state.key;
-      console.log('key', key)
-      const initialFetch = await fetch('http://localhost:3000/api/users?limit=9&page=1', {
+      const api_key = this.state.api_key;
+      console.log('api_key', api_key)
+      const initialFetch = await fetch(`http://localhost:3000/api/users?limit=9&page=${pageNum}`, {
         method: 'GET',
         headers: { 'Content-type': 'application/json',
-                   'x-api-key': key }
+                   'x-api-key': api_key }
       })
       const userList = await initialFetch.json();
       this.setState({ userList })
@@ -81,10 +83,29 @@ class UserList extends Component {
     }
   }
 
+  fetchAllUsers = async (pageNum) => {
+    try {
+      const api_key = this.state.api_key;
+      console.log('api_key', api_key)
+      const initialFetch = await fetch(`http://localhost:3000/api/users?limit=1000&page=${pageNum}`, {
+        method: 'GET',
+        headers: { 'Content-type': 'application/json',
+                   'x-api-key': api_key }
+      })
+      const allUsers = await initialFetch.json();
+      this.setState({ allUsers })
+      console.log(this.state.allUsers)
+      this.sortByName()
+    } catch(error) {
+      this.setState({ error })
+      console.log(error)
+    }
+  }
+
   renderUserList = () => {
-    const { userList } = this.state;
-    if(userList.data) {
-      const user = userList.data.map((info, index) => {
+    const { userList, allUsers } = this.state;
+    if(allUsers.data) {
+      const user = allUsers.data.map((info, index) => {
         return (
           <div className='user' key={ index } id={ info.id }>
             <h6 className='user-name'>{ info.full_name }</h6>
@@ -95,6 +116,34 @@ class UserList extends Component {
         )
       })
       return user
+    }
+  }
+
+  sortByName = () => {
+    let { allUsers, sortedAB } = this.state
+    sortedAB = !sortedAB
+    this.setState({ sortedAB })
+    if(allUsers.data) {
+      const nameSorted = allUsers.data.sort((a, b) => {
+        const nameA = a.full_name.toUpperCase();
+        const nameB = b.full_name.toUpperCase();
+        let comparison = 0
+        if (nameA < nameB) {
+          comparison = -1;
+        } else if (nameA > nameB) {
+          comparison = 1;
+        } 
+        return this.invertComparison(comparison) 
+      })
+    }
+  }
+
+  invertComparison = (comparison) => {
+    let { sortedAB } = this.state;
+    if(sortedAB) {
+      return comparison * -1
+    } else if (!sortedAB) {
+      return comparison
     }
   }
 
@@ -114,7 +163,7 @@ class UserList extends Component {
         </header>
         <div id='user-container'>
           <div id='sort-users'>
-              <h6 id='name-label'>
+              <h6 id='name-label' onClick={ () => this.sortByName() }>
                 Name
                 <img src={ require('../../assets/up-down-arrows.png')}/>
               </h6>
@@ -130,11 +179,14 @@ class UserList extends Component {
                 Survey Date
                 <img src={ require('../../assets/up-down-arrows.png')}/>
               </h6>
-            
           </div>
           <div id='render-user-list'>
-              { this.state.userList && this.renderUserList() }            
-            </div>
+            { this.renderUserList() }            
+          </div>
+        </div>
+        <div id='page-buttons'>
+          <button name='prev'>PREV</button>
+          <button name='next'>NEXT</button>
         </div>
       </div>
     )
