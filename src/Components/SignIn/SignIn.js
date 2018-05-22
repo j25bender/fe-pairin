@@ -30,14 +30,14 @@ export class SignIn extends Component {
         const authResponse = await initialFetch.json();
         localStorage.setItem('authResponse', JSON.stringify(authResponse))
         console.log('auth', authResponse)
+        this.setState({ authResponse, signedIn: true, email: '', password: '' })
+        this.props.handleSignIn({signedIn: true}, authResponse)
         localStorage.setItem('signedIn', true)        
-        this.setState({ authResponse, signedIn: true })
+        
       } catch(error) {
         this.setState({ error })
       }
     }
-    document.getElementById('email-input').value = '';
-    document.getElementById('password-input').value = '';    
   }
 
   render() {

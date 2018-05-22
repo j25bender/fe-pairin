@@ -42,16 +42,68 @@
 
 #user-container {
   display: grid;
-  grid-template-columns: 1fr fit-content 1fr;
-  grid-template-rows: 70px;
-  
+  grid-template-columns: 10% 80% 10%;
+  grid-template-rows: 100px 60px 1fr;
+  align-items: center;
+  justify-items: center;
+}
+
+#sort-users {
+  display: grid;
+  grid-template-columns: 16% 44% 11% 9%;
+  grid-column: 2 / span 3;
+  grid-row: 2 / 3;
+  justify-items: start;
+  height: 60px;
+}
+
+#sort-users h6 {
+  align-self: end;
+  width: 80px;
+  margin: 0;
+}
+
+#sort-users h6 img {
+  padding-left: 2px;
+  height: 10px;
+  width: 10px;
+}
+
+#render-user-list {
+  grid-column: 2 / span 3;
+  grid-row: third-line / 4;  
+}
+
+#render-user-list {  
+  align-self: center;
+  justify-self: center;
 }
 
 .user {
+  display: grid;
+  grid-template-columns: 20% 1fr 13% 13%;
+  align-items: center;
+  justify-items: start;
   background-color: #ECECE6;
-  margin: 10px;  
+  margin: 10px 0;  
   height: 50px;
   width: 80%;
+}
+
+/* #survey-status-label,
+#survey-date-label {
+  align-self: stretch;
+} */
+
+button {
+  height: 25px;
+  width: 125px;
+}
+
+button,
+.user-survey-date {
+  align-self: center;
+  justify-self: center;
 }
 
 .user h6 {
