@@ -36,6 +36,7 @@ class UserList extends Component {
       this.setState({ api_key: renewedKey })
       this.fetchAllUsers(1)
     } catch(error) {
+      this.props.handleSignIn({signedIn: false})
       this.setState({ error })
     }
   }
@@ -142,9 +143,10 @@ class UserList extends Component {
     }
   }
 
-  handleViewClick = (userId) => {
+  handleViewClick = (userId, name) => {
+    console.log('id name', userId, name)
     const viewClicked = true;
-    this.props.viewClick(viewClicked, userId);
+    this.props.viewClick(viewClicked, userId, name);
   }
 
   handlePageClick = (id) => {
@@ -169,15 +171,16 @@ class UserList extends Component {
     const { allUsers } = this.state;
     if(allUsers.data) {      
       const user = allUsers.data.map((info, index) => {
+        const name = info.full_name
+        const userId = info.id
         return (
-          <div className='user' key={ index }>
+          <div className='user' 
+               key={ index }
+               id={ info.id }
+               onClick={() => this.handleViewClick(userId, name)}>
             <h6 className='user-name'>{ info.full_name }</h6>
             <h6 className='user-email'>{ info.email }</h6>
-            <button name='button' 
-                    id={ info.id } 
-                    onClick={(e) => this.handleViewClick(e.target.id)}>
-                    VIEW
-            </button>
+            <button name='button'>VIEW</button>
             <h6 className='user-survey-date'>{ info.formatedDate }</h6>
           </div>
         )

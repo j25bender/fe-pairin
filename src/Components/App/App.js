@@ -14,7 +14,9 @@ class App extends Component {
       api_key: '',
       renew: '',
       viewClicked: false,
-      userId: ''
+      userId: '',
+      authResponse: {},
+      name: ''
     }
   }
 
@@ -32,13 +34,16 @@ class App extends Component {
   }
 
   handleSignIn = (signedIn, authResponse) => {
+    if(authResponse === undefined) {
+      authResponse = this.state.authResponse
+    }
     const { api_key, renew_key } = authResponse
-    this.setState({ signedIn, api_key, renew: renew_key })
+    this.setState({ signedIn, api_key, renew: renew_key, authResponse })
   }
 
-  viewClick = (viewClicked, userId) => {
+  viewClick = (viewClicked, userId, name) => {
     console.log('app', viewClicked, userId)
-    this.setState({ viewClicked, userId }) 
+    this.setState({ viewClicked, userId, name }) 
   }
 
   render() {
@@ -58,7 +63,8 @@ class App extends Component {
               this.state.viewClicked ? <Redirect to='/inform' /> 
                                      : <UserList signedIn={ this.state.signedIn }
                                                  api_key={ this.state.api_key } 
-                                                 renew={ this.state.renew } 
+                                                 renew={ this.state.renew }
+                                                 handleSignIn={ this.handleSignIn }
                                                  viewClick={ this.viewClick }/>
             }
           />
@@ -67,7 +73,9 @@ class App extends Component {
             render={() => <Inform viewClicked={ this.state.viewClicked } 
                                   userId={ this.state.userId } 
                                   api_key={ this.state.api_key } 
-                                  renew={ this.state.renew }/>
+                                  renew={ this.state.renew } 
+                                  name={ this.state.name }
+                                  handleSignIn={ this.handleSignIn } />
             }
           />
         </Switch>

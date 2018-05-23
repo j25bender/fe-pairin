@@ -4,7 +4,7 @@ div {
   width: 100vw;
 }
 
-header {
+#sigin-header {
   display: grid;
   grid-template-columns: 115px 90px 135px auto;
   grid-template-rows: 40px 70px;
@@ -12,14 +12,14 @@ header {
   justify-items: center;
 }
 
-div img {
+#sigin-header img {
   grid-column: 2 / 3;
   grid-row: row1-end / 2;
   height: 65px;
   width: 65px;
 }
 
-span {
+#pairin {
   color: #317C9A;
   justify-self: start;
   grid-column: 3 / 4;

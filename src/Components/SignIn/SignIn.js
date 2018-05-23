@@ -41,10 +41,10 @@ export class SignIn extends Component {
   render() {
     return (
       <div>
-        <header>
+        <header id='sigin-header'>
           <img src={ require('../../assets/pairin-logo.png') } 
                alt='PAIRIN Company Logo' />
-                <span>
+                <span id='pairin'>
                   PAIRIN
                 </span>
         </header>
