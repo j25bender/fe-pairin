@@ -142,6 +142,10 @@ class UserList extends Component {
     }
   }
 
+  handleViewClick = (userId) => {
+    this.props.viewClick({viewClicked: true}, userId)
+  }
+
   handlePageClick = (id) => {
     const pageNum = parseInt(id);
     this.fetchUserList(pageNum);
@@ -150,12 +154,12 @@ class UserList extends Component {
   renderPageButtons = () => {
     return (
       <ul id='button-group'>
-        <li><a className='prev' onClick={(e) => this.handlePageClick(e.target.id) }>PREV</a></li>
-        <li><a className='pageNum' id='1' onClick={(e) => this.handlePageClick(e.target.id) }>1</a></li>
-        <li><a className='pageNum' id='2' onClick={(e) => this.handlePageClick(e.target.id) }>2</a></li>
-        <li><a className='pageNum' id='3' onClick={(e) => this.handlePageClick(e.target.id) }>3</a></li>
-        <li><a className='pageNum' id='4' onClick={(e) => this.handlePageClick(e.target.id) }>4</a></li>
-        <li><a id='next' onClick={(e) => this.handlePageClick(e.target.id) }>NEXT</a></li>
+        <li><a id='prev'>PREV</a></li>
+        <li><a className='pageNum' id='1' onClick={(e) => this.handlePageClick(e.target.id)}>1</a></li>
+        <li><a className='pageNum' id='2' onClick={(e) => this.handlePageClick(e.target.id)}>2</a></li>
+        <li><a className='pageNum' id='3' onClick={(e) => this.handlePageClick(e.target.id)}>3</a></li>
+        <li><a className='pageNum' id='4' onClick={(e) => this.handlePageClick(e.target.id)}>4</a></li>
+        <li><a id='next'>NEXT</a></li>
       </ul>
     )
   }
@@ -165,10 +169,14 @@ class UserList extends Component {
     if(allUsers.data) {      
       const user = allUsers.data.map((info, index) => {
         return (
-          <div className='user' key={ index } id={ info.id }>
+          <div className='user' key={ index }>
             <h6 className='user-name'>{ info.full_name }</h6>
             <h6 className='user-email'>{ info.email }</h6>
-            <button name='button'>VIEW</button>
+            <button name='button' 
+                    id={ info.id } 
+                    onClick={(e) => this.handleViewClick(e.target.id)}>
+                    VIEW
+            </button>
             <h6 className='user-survey-date'>{ info.formatedDate }</h6>
           </div>
         )
