@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import UserList from '../UserList/UserList'
 import './SignIn.css';
 
 export class SignIn extends Component {
@@ -29,7 +28,6 @@ export class SignIn extends Component {
         })
         const authResponse = await initialFetch.json();
         localStorage.setItem('authResponse', JSON.stringify(authResponse))
-        console.log('auth', authResponse)
         this.setState({ authResponse, signedIn: true, email: '', password: '' })
         this.props.handleSignIn({signedIn: true}, authResponse)
         localStorage.setItem('signedIn', true)        
@@ -43,10 +41,10 @@ export class SignIn extends Component {
   render() {
     return (
       <div>
-        <header>
+        <header id='sigin-header'>
           <img src={ require('../../assets/pairin-logo.png') } 
                alt='PAIRIN Company Logo' />
-                <span>
+                <span id='pairin'>
                   PAIRIN
                 </span>
         </header>

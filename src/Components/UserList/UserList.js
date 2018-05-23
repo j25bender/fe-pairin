@@ -36,6 +36,7 @@ class UserList extends Component {
       this.setState({ api_key: renewedKey })
       this.fetchAllUsers(1)
     } catch(error) {
+      this.props.handleSignIn({signedIn: false})
       this.setState({ error })
     }
   }
@@ -142,6 +143,12 @@ class UserList extends Component {
     }
   }
 
+  handleViewClick = (userId, name) => {
+    console.log('id name', userId, name)
+    const viewClicked = true;
+    this.props.viewClick(viewClicked, userId, name);
+  }
+
   handlePageClick = (id) => {
     const pageNum = parseInt(id);
     this.fetchUserList(pageNum);
@@ -150,12 +157,12 @@ class UserList extends Component {
   renderPageButtons = () => {
     return (
       <ul id='button-group'>
-        <li><a className='prev' onClick={(e) => this.handlePageClick(e.target.id) }>PREV</a></li>
-        <li><a className='pageNum' id='1' onClick={(e) => this.handlePageClick(e.target.id) }>1</a></li>
-        <li><a className='pageNum' id='2' onClick={(e) => this.handlePageClick(e.target.id) }>2</a></li>
-        <li><a className='pageNum' id='3' onClick={(e) => this.handlePageClick(e.target.id) }>3</a></li>
-        <li><a className='pageNum' id='4' onClick={(e) => this.handlePageClick(e.target.id) }>4</a></li>
-        <li><a id='next' onClick={(e) => this.handlePageClick(e.target.id) }>NEXT</a></li>
+        <li><a id='prev'>PREV</a></li>
+        <li><a className='pageNum' id='1' onClick={(e) => this.handlePageClick(e.target.id)}>1</a></li>
+        <li><a className='pageNum' id='2' onClick={(e) => this.handlePageClick(e.target.id)}>2</a></li>
+        <li><a className='pageNum' id='3' onClick={(e) => this.handlePageClick(e.target.id)}>3</a></li>
+        <li><a className='pageNum' id='4' onClick={(e) => this.handlePageClick(e.target.id)}>4</a></li>
+        <li><a id='next'>NEXT</a></li>
       </ul>
     )
   }
@@ -164,8 +171,13 @@ class UserList extends Component {
     const { allUsers } = this.state;
     if(allUsers.data) {      
       const user = allUsers.data.map((info, index) => {
+        const name = info.full_name
+        const userId = info.id
         return (
-          <div className='user' key={ index } id={ info.id }>
+          <div className='user' 
+               key={ index }
+               id={ info.id }
+               onClick={() => this.handleViewClick(userId, name)}>
             <h6 className='user-name'>{ info.full_name }</h6>
             <h6 className='user-email'>{ info.email }</h6>
             <button name='button'>VIEW</button>
