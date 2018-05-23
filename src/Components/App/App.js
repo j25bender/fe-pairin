@@ -27,7 +27,6 @@ class App extends Component {
         const api_key = parsedResponse.api_key
         const renew = parsedResponse.renew_key    
         this.setState({ signedIn, api_key, renew })
-        console.log('app state', this.state)
       }
     }
   }
@@ -38,6 +37,7 @@ class App extends Component {
   }
 
   viewClick = (viewClicked, userId) => {
+    console.log('app', viewClicked, userId)
     this.setState({ viewClicked, userId }) 
   }
 
@@ -65,7 +65,9 @@ class App extends Component {
           <Route
             path='/inform'
             render={() => <Inform viewClicked={ this.state.viewClicked } 
-                                  userId={ this.state.userId } />
+                                  userId={ this.state.userId } 
+                                  api_key={ this.state.api_key } 
+                                  renew={ this.state.renew }/>
             }
           />
         </Switch>

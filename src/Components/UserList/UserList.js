@@ -143,7 +143,8 @@ class UserList extends Component {
   }
 
   handleViewClick = (userId) => {
-    this.props.viewClick({viewClicked: true}, userId)
+    const viewClicked = true;
+    this.props.viewClick(viewClicked, userId);
   }
 
   handlePageClick = (id) => {
