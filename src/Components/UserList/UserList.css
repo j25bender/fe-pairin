@@ -60,6 +60,7 @@
 
 #sort-users h6 {
   align-self: end;
+  cursor: pointer;
   width: 80px;
   margin: 0;
 }
@@ -96,12 +97,15 @@
   align-self: stretch;
 } */
 
-button {
+.user button {
+  background-color: #F5F5F2;
+  border-radius: 5px;
+  cursor: pointer;
   height: 25px;
   width: 125px;
 }
 
-button,
+.user button,
 .user-survey-date {
   align-self: center;
   justify-self: center;
@@ -110,3 +114,28 @@ button,
 .user h6 {
   margin: 0;
 }
+
+#user-container #page-buttons buttons{
+  background-color: black;
+}
+
+#page-buttons {
+  text-align: center;
+}
+
+#button-group li {
+  background-color: #FFF;
+  border: 1px solid #DDD;
+  border-radius: 5px;
+  color: #DDD;
+  cursor: pointer;
+  display: inline;
+  font-size: 12px;
+  margin: 0 2px;
+  padding: 10px 5px;
+}
+
+#button-group li:hover {
+  background-color: #3A7B9A;
+  color: #FFF;
+}  

@@ -7,7 +7,6 @@ class UserList extends Component {
     super(props)
 
     this.state = {
-      userList: [],
       allUsers: [],
       error: '',
       api_key: '',
@@ -17,29 +16,8 @@ class UserList extends Component {
   }
 
   componentDidMount() {
-    console.log('props', this.props)
-    // console.log(prevProps !== this.props)
-      // this.fetchUserList();
       this.renewSession();
   }
-
-  // checkSession = async () => {
-  //   try {
-  //     const api_key = this.props.key;
-  //     console.log(api_key)
-  //     const initialFetch = await fetch('/authenticate', {
-  //       method: 'GET',
-  //       headers: { 'Content-type': 'application/json',
-  //                  'x-api-key': api_key }
-  //     })
-  //     const checkSession = await initialFetch.json();
-  //     // this.setState({ userList })
-  //     console.log('check session', checkSession )
-  //   } catch(error) {
-  //     this.setState({ error })
-  //     console.log('check err', error)
-  //   }
-  // }
 
   renewSession = async () => {
     try {
@@ -56,65 +34,39 @@ class UserList extends Component {
       const renewSession = await initialFetch.json();
       const renewedKey = renewSession.api_key
       this.setState({ api_key: renewedKey })
-      // this.fetchUserList(1)
       this.fetchAllUsers(1)
     } catch(error) {
       this.setState({ error })
-      console.log('renew err', error)
     }
   }
 
   fetchUserList = async (pageNum) => {
     try {
       const api_key = this.state.api_key;
-      console.log('api_key', api_key)
       const initialFetch = await fetch(`http://localhost:3000/api/users?limit=9&page=${pageNum}`, {
         method: 'GET',
         headers: { 'Content-type': 'application/json',
                    'x-api-key': api_key }
       })
       const userList = await initialFetch.json();    
-      // this.setState({ userList })
-      console.log(this.state.userList)
+      this.convertDates(userList)
     } catch(error) {
       this.setState({ error })
-      console.log(error)
     }
   }
 
   fetchAllUsers = async (pageNum) => {
     try {
       const api_key = this.state.api_key;
-      console.log('api_key', api_key)
       const initialFetch = await fetch(`http://localhost:3000/api/users?limit=1000&page=${pageNum}`, {
         method: 'GET',
         headers: { 'Content-type': 'application/json',
                    'x-api-key': api_key }
       })
       const allUsers = await initialFetch.json();
-      // this.setState({ allUsers })
       this.convertDates(allUsers)
-      console.log(this.state.allUsers)
     } catch(error) {
       this.setState({ error })
-      console.log(error)
-    }
-  }
-
-  renderUserList = () => {
-    const { userList, allUsers } = this.state;
-    if(allUsers) {
-      const user = allUsers.map((info, index) => {
-        return (
-          <div className='user' key={ index } id={ info.id }>
-            <h6 className='user-name'>{ info.full_name }</h6>
-            <h6 className='user-email'>{ info.email }</h6>
-            <button name='button'>VIEW</button>
-            <h6 className='user-survey-date'>{ info.date }</h6>
-          </div>
-        )
-      })
-      return user
     }
   }
 
@@ -122,8 +74,8 @@ class UserList extends Component {
     let { allUsers, sortedAB } = this.state
     sortedAB = !sortedAB
     this.setState({ sortedAB })
-    if(allUsers) {
-      allUsers.sort((a, b) => {
+    if(allUsers.data) {
+      allUsers.data.sort((a, b) => {
         const nameEmailA = a[className].toUpperCase();
         const nameEmailB = b[className].toUpperCase();
         let comparison = 0
@@ -141,8 +93,8 @@ class UserList extends Component {
     let { allUsers, sortedAB } = this.state
     sortedAB = !sortedAB
     this.setState({ sortedAB })
-    if(allUsers) {
-      allUsers.sort((a, b) => {
+    if(allUsers.data) {
+      allUsers.data.sort((a, b) => {
         const nameEmailA = a[className];
         const nameEmailB = b[className];
         let comparison = 0
@@ -167,7 +119,7 @@ class UserList extends Component {
 
   convertDates = (allUsers) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-
+    
     if(allUsers.data) {
       const updatedUsers = allUsers.data.reduce((accu, user, index) => {
         if(typeof user.survey_date === 'string') {
@@ -179,13 +131,49 @@ class UserList extends Component {
                                           parseInt(newDateArr[2])));
           const formatedDate = event.toLocaleDateString('en-US', options);
         
-          const newObj = Object.assign({}, user, {date: formatedDate});
+          const newObj = Object.assign({}, user, {formatedDate: formatedDate});
           accu.push(newObj)
           return accu
         }
         return accu
       }, [])
-      this.setState({ allUsers: updatedUsers })
+      const addDataKey = Object.assign({}, {data: updatedUsers})
+      this.setState({ allUsers: addDataKey })
+    }
+  }
+
+  handlePageClick = (id) => {
+    const pageNum = parseInt(id);
+    this.fetchUserList(pageNum);
+  }
+
+  renderPageButtons = () => {
+    return (
+      <ul id='button-group'>
+        <li><a className='prev' onClick={(e) => this.handlePageClick(e.target.id) }>PREV</a></li>
+        <li><a className='pageNum' id='1' onClick={(e) => this.handlePageClick(e.target.id) }>1</a></li>
+        <li><a className='pageNum' id='2' onClick={(e) => this.handlePageClick(e.target.id) }>2</a></li>
+        <li><a className='pageNum' id='3' onClick={(e) => this.handlePageClick(e.target.id) }>3</a></li>
+        <li><a className='pageNum' id='4' onClick={(e) => this.handlePageClick(e.target.id) }>4</a></li>
+        <li><a id='next' onClick={(e) => this.handlePageClick(e.target.id) }>NEXT</a></li>
+      </ul>
+    )
+  }
+
+  renderUserList = () => {
+    const { allUsers } = this.state;
+    if(allUsers.data) {      
+      const user = allUsers.data.map((info, index) => {
+        return (
+          <div className='user' key={ index } id={ info.id }>
+            <h6 className='user-name'>{ info.full_name }</h6>
+            <h6 className='user-email'>{ info.email }</h6>
+            <button name='button'>VIEW</button>
+            <h6 className='user-survey-date'>{ info.formatedDate }</h6>
+          </div>
+        )
+      })
+      return user
     }
   }
 
@@ -227,8 +215,7 @@ class UserList extends Component {
           </div>
         </div>
         <div id='page-buttons'>
-          <button name='prev'>PREV</button>
-          <button name='next'>NEXT</button>
+          { this.renderPageButtons() }
         </div>
       </div>
     )

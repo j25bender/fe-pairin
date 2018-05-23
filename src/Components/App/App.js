@@ -30,17 +30,6 @@ class App extends Component {
     }
   }
 
-  // signedInCheck = () => {
-  //   console.log('hey')
-  //   const signedIn = localStorage.getItem('signedIn')
-  //   // console.log('history', this.props.history)
-  //   if(signedIn === 'true' && signedIn !== this.state.signedIn) {
-  //     this.setState({ signedIn })     
-  //     // this.props.router.push('/userlist')
-  //     console.log('si')
-  //   }
-  // }
-
   handleSignIn = (signedIn, authResponse) => {
     const {api_key, renew_key} = authResponse
     this.setState({signedIn, api_key, renew: renew_key})
