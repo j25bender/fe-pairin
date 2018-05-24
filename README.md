@@ -4,7 +4,7 @@ Front End constructed utlizing data from a Swagger API.
 
 ## Installation
 ```
-git clone https://github.com/j25bender/palette-picker.git
+git clone https://github.com/j25bender/fe-pairin.git
 npm install
 npm start
 ```
