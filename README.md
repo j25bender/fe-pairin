@@ -13,6 +13,8 @@ npm start
 
 https://github.com/j25bender/Frontend_Code_Challenge
 
+http://localhost:3000/swagger
+
 
 ## Contributors
 
