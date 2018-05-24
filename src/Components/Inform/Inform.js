@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './Inform.css';
-import PropTypes from 'prop-types';
 
 class Inform extends Component {
   constructor(props) {
@@ -55,7 +54,6 @@ class Inform extends Component {
       const userInfo = await initialFetch.json();
       this.pageNotFound(userInfo)
       this.setState({ userInfo })
-      console.log('s', this.state)
     } catch(error) {
       this.setState({ error })
     }
@@ -115,18 +113,28 @@ class Inform extends Component {
     }
   }
 
+  renderMasthead = (quality = 'general') => {
+    const { userInfo } = this.state;
+    if(userInfo.qualities) {
+      return (
+        <section id='mastHead'>
+          <svg id='quality-icon' viewBox="0 0 667 667">
+            <use xlinkHref={ `${ userInfo.qualities[`${quality}`].icon }` } />
+          </svg>
+        </section>
+      )
+    }
+  }
+
   render() {
     return (
       <div id='inform-component'>
         { this.renderPageNotFound() }
         { this.renderHeader() }
+        { this.renderMasthead() }
       </div>
     );
   }
 }
-
-Inform.propTypes = {
-
-};
 
 export default Inform;

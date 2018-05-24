@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import './UserList.css'
-import PropTypes from 'prop-types'
 
 class UserList extends Component {
   constructor(props) {
@@ -144,7 +143,6 @@ class UserList extends Component {
   }
 
   handleViewClick = (userId, name) => {
-    console.log('id name', userId, name)
     const viewClicked = true;
     this.props.viewClick(viewClicked, userId, name);
   }
@@ -232,10 +230,6 @@ class UserList extends Component {
       </div>
     )
   }
-}
-
-UserList.propTypes = {
-
 }
 
 export default UserList

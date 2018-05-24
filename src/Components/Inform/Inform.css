@@ -106,3 +106,16 @@ header#inform-header-page-found {
   font-size: 45px;
   margin: 0;
 }
+
+#mastHead {
+  height: 265px;
+  width: 100vw;
+  background-image: linear-gradient(to top left, #1A495C, #377694);
+  z-index: -1;
+}
+
+#quality-icon {
+  height: 100px;
+  width: 100px;
+  border-radius: 100%;
+}
