@@ -42,7 +42,6 @@ class App extends Component {
   }
 
   viewClick = (viewClicked, userId, name) => {
-    console.log('app', viewClicked, userId)
     this.setState({ viewClicked, userId, name }) 
   }
 
